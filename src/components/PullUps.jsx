@@ -5,7 +5,7 @@ function PullUps({date, reps, isEditing, callbackEdit, editValue}) {
             <div className="break-words">
                 {isEditing ?
                     (
-                        <input type="text" value={editValue} onChange={(e) =>
+                        <input className="w-full" type="text" value={editValue} onChange={(e) =>
                             (callbackEdit({date: date, reps: e.target.value.split('/')
                                     .map(rep => parseInt(rep) || 0)}))} />
                     ) :
