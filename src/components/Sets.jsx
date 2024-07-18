@@ -3,11 +3,14 @@ import {persist, read} from "../utility/Storage.js";
 import PullUps from "./PullUps.jsx";
 import {getCurrentDate} from "../utility/Date.js";
 import {MdAddCircle, MdDelete, MdEdit, MdSave} from "react-icons/md";
+import Dialogue from "./Dialogue.jsx";
 
 function Sets() {
     const [sets, setSets] = useState(readSets)
     const [reps, setReps] = useState(0)
     const [editedSet, setEditedSet] = useState([])
+    const [deleteSet, setDeleteSet] = useState([])
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
     function readSets() {
         let sets = read('sets') ?? []
@@ -82,16 +85,16 @@ function Sets() {
     return (
         <>
             <div className="flex items-center gap-3 justify-center mb-6">
-                <input className="rounded" type='number' onChange={setTempReps}/>
+                <input className="rounded border-2" type='number' onChange={setTempReps}/>
                 <MdAddCircle className="cursor-pointer" onClick={() => addReps()}/>
             </div>
             {sets.map((set, index) =>
                 (
-                    <div className="grid grid-cols-4 mb-3" key={index}>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3 border-2 p-3" key={index}>
                         <PullUps date={set.date} reps={set.reps} isEditing={set.isEditing ?? false}
                                  callbackEdit={setTempSet}
                                  editValue={
-                                    editedSet.length > 0 && editedSet.findIndex(e => e.date === set.date) !== -1
+                                     editedSet.length > 0 && editedSet.findIndex(e => e.date === set.date) !== -1
                                         ? (editedSet[editedSet.findIndex(e => e.date === set.date)]?.reps?.join('/'))
                                         : set.reps.join('/')
                                  }
@@ -106,11 +109,24 @@ function Sets() {
                                         <MdEdit className="cursor-pointer" onClick={() => editReps(set.date)}/>
                                     )
                             }
-                            <MdDelete className="cursor-pointer" onClick={() => deleteReps(set.date)} />
+                            <MdDelete className="cursor-pointer" onClick={() => {
+                                setDeleteSet(set)
+                                setIsDeleteOpen(true)
+                            }} />
                         </div>
                     </div>
                 )
             )}
+            <Dialogue isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)}>
+                <h2 className="text-xl font-semibold">Do you want to delete this log?</h2>
+                <button className="mt-6 bg-red-500 text-white px-4 py-2 rounded"
+                        onClick={() => {
+                            deleteReps(deleteSet.date)
+                            setIsDeleteOpen(false)
+                        }}>
+                    Delete
+                </button>
+            </Dialogue>
         </>
     )
 }

@@ -1,7 +1,11 @@
 # Pull-ups logger
 
-<b style="color: green">STACK:</b> React, Vite, TailwindCSS
+![React](https://img.shields.io/badge/React-^18.3.1-blue)
+![Vite](https://img.shields.io/badge/Vite-^5.3.4-yellow)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-^3.4.5-green)
 
-<h3>To-do:</h3>
-1. Confirmation Dialogue/Modal before delete
-2. Fix edit input size on mobile
+## Description
+A simple application to log and track your pull-ups progress.
+
+## Features
+- View, add, edit, delete pull-up counts for each day
