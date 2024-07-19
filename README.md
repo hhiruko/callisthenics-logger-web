@@ -16,3 +16,4 @@ A simple application to log and track your callisthenics exercises progress.
 
 ## Coming soon:
 - Time-based exercises
+- Analytics (graphs, figures, trends, etc.)

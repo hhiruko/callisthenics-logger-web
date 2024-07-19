@@ -25,7 +25,11 @@ function Sets({exercise}) {
 
     function sortSets(sets) {
         if (sets.length > 0) {
-            sets.sort((a, b) => b.date.localeCompare(a.date))
+            sets.sort((a, b) => {
+                let dateA = new Date(a.date)
+                let dateB = new Date(b.date)
+                return dateB - dateA
+            })
         }
         return sets
     }

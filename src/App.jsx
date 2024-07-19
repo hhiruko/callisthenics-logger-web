@@ -9,7 +9,7 @@ function App() {
         <>
             <Nav />
             <Routes>
-                <Route path='/' element={<Navigate to='/pull-ups' /> }/>
+                <Route path='/' element={<Navigate to='/pull-ups'/>}/>
                 <Route path='/pull-ups' element={<PullUps/>}/>
                 <Route path='/push-ups' element={<PushUps/>}/>
             </Routes>
