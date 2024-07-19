@@ -1,11 +1,14 @@
-# Pull-ups logger
+# Callisthenics logger
 
 ![React](https://img.shields.io/badge/React-^18.3.1-blue)
 ![Vite](https://img.shields.io/badge/Vite-^5.3.4-yellow)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-^3.4.5-green)
 
 ## Description
-A simple application to log and track your pull-ups progress.
+A simple application to log and track your callisthenics exercises progress.
 
 ## Features
 - View, add, edit, delete pull-up counts for each day
+
+## Coming soon:
+- Routing, push-ups, time-based exercises

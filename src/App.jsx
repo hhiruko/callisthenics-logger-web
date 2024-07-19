@@ -3,7 +3,7 @@ import Sets from "./components/Sets.jsx";
 
 function App() {
     return (
-        <Sets />
+        <Sets exercise='PullUps' />
     )
 }
 
