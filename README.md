@@ -7,8 +7,12 @@
 ## Description
 A simple application to log and track your callisthenics exercises progress.
 
+## Exercises
+- Pull-ups
+- Push-ups
+
 ## Features
-- View, add, edit, delete pull up/push up counts for each day
+- View, add, edit, delete exercise reps for each day
 
 ## Coming soon:
 - Time-based exercises
