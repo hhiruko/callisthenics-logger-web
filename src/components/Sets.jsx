@@ -3,7 +3,7 @@ import {persist, read} from "../utility/Storage.js";
 import {getCurrentDate, parseDate} from "../utility/Date.js";
 import {MdAddCircle, MdDelete, MdEdit, MdSave} from "react-icons/md";
 import Dialogue from "./Dialogue.jsx";
-import Exercise from "./Exercise.jsx";
+import Reps from "./Reps.jsx";
 
 function Sets({exercise}) {
     const setName = 'sets-' + exercise
@@ -97,7 +97,7 @@ function Sets({exercise}) {
             {sets.map((set, index) =>
                 (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3 border-2 p-3" key={index}>
-                        <Exercise date={set.date} reps={set.reps} isEditing={set.isEditing ?? false}
+                        <Reps date={set.date} reps={set.reps} isEditing={set.isEditing ?? false}
                                  callbackEdit={setTempSet}
                                  editValue={
                                      editedSet.length > 0 && editedSet.findIndex(e => e.date === set.date) !== -1

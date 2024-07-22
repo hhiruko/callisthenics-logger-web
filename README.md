@@ -15,5 +15,7 @@ A simple application to log and track your callisthenics exercises progress.
 - View, add, edit, delete exercise reps for each day
 
 ## Coming soon:
+- Add exercises
 - Units of measurements
 - Analytics (graphs, figures, trends, etc.)
+- Export/import user data

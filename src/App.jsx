@@ -1,8 +1,7 @@
 import './App.css'
 import {Navigate, Route, Routes} from "react-router-dom";
-import PullUps from "./pages/PullUps.jsx";
-import PushUps from "./pages/PushUps.jsx";
 import Nav from "./components/Nav.jsx";
+import Exercise from "./pages/Exercise.jsx";
 
 function App() {
     return (
@@ -10,8 +9,7 @@ function App() {
             <Nav />
             <Routes>
                 <Route path='/' element={<Navigate to='/pull-ups'/>}/>
-                <Route path='/pull-ups' element={<PullUps/>}/>
-                <Route path='/push-ups' element={<PushUps/>}/>
+                <Route path='/:exercise' element={<Exercise/>} />
             </Routes>
         </>
     )
