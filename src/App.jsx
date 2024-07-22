@@ -2,6 +2,7 @@ import './App.css'
 import {Navigate, Route, Routes} from "react-router-dom";
 import Nav from "./components/Nav.jsx";
 import Exercise from "./pages/Exercise.jsx";
+import Data from "./components/Data.jsx";
 
 function App() {
     return (
@@ -10,6 +11,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Navigate to='/pull-ups'/>}/>
                 <Route path='/:exercise' element={<Exercise/>} />
+                <Route path='/download' element={<Data />} />
             </Routes>
         </>
     )

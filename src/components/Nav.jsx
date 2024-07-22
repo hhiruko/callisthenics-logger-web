@@ -1,5 +1,6 @@
 import {NavLink} from "react-router-dom";
 import {Exercises} from "../utility/Exercises.js";
+import {MdImportExport} from "react-icons/md";
 
 function Nav () {
     return (
@@ -8,6 +9,9 @@ function Nav () {
                 <NavLink key={key} to={exercise.route} className={({isActive}) => isActive ? 'text-blue-500' : ''}>
                     {exercise.label}
                 </NavLink>))}
+            <NavLink to='/download' className={({isActive}) => isActive ? 'text-blue-500 my-auto' : 'my-auto'}>
+                <MdImportExport/>
+            </NavLink>
         </nav>
     )
 }
