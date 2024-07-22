@@ -1,15 +1,11 @@
 import {useState} from "react";
 import {persist, read} from "../utility/Storage.js";
-import {getCurrentDate} from "../utility/Date.js";
+import {getCurrentDate, parseDate} from "../utility/Date.js";
 import {MdAddCircle, MdDelete, MdEdit, MdSave} from "react-icons/md";
 import Dialogue from "./Dialogue.jsx";
-import {ExerciseMap} from "../utility/ExerciseMap.js";
+import Exercise from "./Exercise.jsx";
 
 function Sets({exercise}) {
-    const Exercise = ExerciseMap[exercise]
-    if (!Exercise) {
-        throw new Error(`Component ${exercise} does not exist.`);
-    }
     const setName = 'sets-' + exercise
 
     const [sets, setSets] = useState(readSets)
@@ -26,8 +22,8 @@ function Sets({exercise}) {
     function sortSets(sets) {
         if (sets.length > 0) {
             sets.sort((a, b) => {
-                let dateA = new Date(a.date)
-                let dateB = new Date(b.date)
+                let dateA = parseDate(a.date)
+                let dateB = parseDate(b.date)
                 return dateB - dateA
             })
         }
