@@ -15,9 +15,9 @@ function Nav () {
 
     return (
         <nav className="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-4 dark:bg-neutral-900 bg-white p-4 shadow-md">
-            <select onSelect={handleNavigate}>
+            <select value={location.pathname.replace('/', '')} onChange={handleNavigate}>
                 {Exercises.map((exercise, key) => (
-                    <option key={key} value={exercise.route} selected={'/' + exercise.route === location.pathname}>
+                    <option key={key} value={exercise.route}>
                         {exercise.label}
                     </option>))}
             </select>
