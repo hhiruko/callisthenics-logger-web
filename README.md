@@ -21,4 +21,3 @@ A simple application to log and track your callisthenics exercises progress.
 
 ## Backlog/Need help
 - Fix edit input with floating points
-- Fix select navigation when going back to main
