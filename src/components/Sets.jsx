@@ -31,7 +31,7 @@ function Sets({exercise}) {
     }
 
     function setTempReps(event) {
-        setReps(parseInt(event.target.value))
+        setReps(parseFloat(event.target.value))
     }
 
     function addReps(){
@@ -91,7 +91,7 @@ function Sets({exercise}) {
     return (
         <>
             <div className="flex items-center gap-3 justify-center mb-6">
-                <input className="rounded border-2" type='number' onChange={setTempReps}/>
+                <input className="rounded border-2" type='number' step='any' onChange={setTempReps}/>
                 <MdAddCircle className="cursor-pointer" onClick={() => addReps()}/>
             </div>
             {sets.map((set, index) =>
