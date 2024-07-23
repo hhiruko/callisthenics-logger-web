@@ -18,3 +18,7 @@ A simple application to log and track your callisthenics exercises progress.
 - Add exercises
 - Units of measurements
 - Analytics (graphs, figures, trends, etc.)
+
+## Backlog/Need help
+- Fix edit input with floating points
+- Fix select navigation when going back to main
