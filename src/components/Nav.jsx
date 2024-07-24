@@ -27,8 +27,7 @@ function Nav () {
     }
 
     function getIsExerciseNavPage() {
-        let exercise = Exercises.findIndex(exercise => '/' + exercise.route === location.pathname)
-        return exercise !== -1;
+        return location.pathname !== '/settings'
     }
 
     return (
@@ -41,7 +40,7 @@ function Nav () {
                         {exercise.label}
                     </option>))}
             </select>
-            <NavLink onClick={() => setIsExerciseNavOpen(false)} to='/download' className={({isActive}) => isActive ? 'text-blue-500 my-auto' : 'my-auto'}>
+            <NavLink onClick={() => setIsExerciseNavOpen(false)} to='/settings' className={({isActive}) => isActive ? 'text-blue-500 my-auto' : 'my-auto'}>
                 <MdImportExport/>
             </NavLink>
         </nav>

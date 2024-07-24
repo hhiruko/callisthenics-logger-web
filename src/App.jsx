@@ -11,7 +11,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Navigate to='/pull-ups'/>}/>
                 <Route path='/:exercise' element={<Exercise/>} />
-                <Route path='/download' element={<Data />} />
+                <Route path='/settings' element={<Data />} />
             </Routes>
         </>
     )
