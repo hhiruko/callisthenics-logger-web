@@ -1,9 +1,8 @@
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
-import {Exercises} from "../utility/Exercises.js";
 import {MdImportExport} from "react-icons/md";
 import {useState} from "react";
 
-function Nav () {
+function Nav ({exercises}) {
     const navigate = useNavigate()
     const location = useLocation()
     const [isExerciseNavOpen, setIsExerciseNavOpen] = useState(getIsExerciseNavPage())
@@ -35,7 +34,7 @@ function Nav () {
             className="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-4 dark:bg-neutral-900 bg-white p-4 shadow-md">
             <select value={location.pathname.replace('/', '')}
                     onChange={handleNavigate} onMouseDown={handleNavigateBack}>
-                {Exercises.map((exercise, key) => (
+                {exercises.map((exercise, key) => (
                     <option key={key} value={exercise.route}>
                         {exercise.label}
                     </option>))}

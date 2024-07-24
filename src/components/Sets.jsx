@@ -12,7 +12,7 @@ function Sets({exercise}) {
     const [reps, setReps] = useState(0)
     const [editedSet, setEditedSet] = useState([])
     const [deleteSet, setDeleteSet] = useState([])
-    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
     function readSets() {
         let sets = read(setName) ?? []
