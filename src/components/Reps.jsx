@@ -7,8 +7,7 @@ function Reps({date, reps, isEditing, callbackEdit, editValue}) {
                     (
                         <input className="w-full" type="text" value={editValue} onChange={(e) =>
                             (callbackEdit({
-                                date: date, reps: e.target.value.split('/')
-                                    .map(rep => parseFloat(rep) || 0)
+                                date: date, reps: e.target.value
                             }))}/>
                     ) :
                     (

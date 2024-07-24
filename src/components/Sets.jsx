@@ -86,7 +86,23 @@ function Sets({exercise}) {
         log[set].isEditing = false
         let tempSet = editedSet.findIndex(set => set.date === date)
         if (tempSet !== -1) {
-            log[set].reps = editedSet[tempSet].reps
+            let reps = editedSet[tempSet].reps
+            let delimiters = ['/', '\\']
+            reps = reps.split(',').join('.')
+            delimiters.forEach(delimiter => {
+                reps = reps.split(delimiter).join(' ')
+            })
+            reps = reps.split(' ')
+
+            log[set].reps = reps.map(item => {
+                let cleanedItem = item.replace(/^\D+|\D+$/g, '')
+                return parseFloat(cleanedItem)
+                })
+                .filter(item => !isNaN(item))
+
+            let updatedSet = [...editedSet]
+            updatedSet.splice(tempSet, 1)
+            setEditedSet(updatedSet)
         }
         persist(setName, log)
         setSets(log)
@@ -157,7 +173,7 @@ function Sets({exercise}) {
                               callbackEdit={setTempSet}
                               editValue={
                                   editedSet.length > 0 && editedSet.findIndex(e => e.date === set.date) !== -1
-                                        ? (editedSet[editedSet.findIndex(e => e.date === set.date)]?.reps?.join('/'))
+                                        ? (editedSet[editedSet.findIndex(e => e.date === set.date)]?.reps)
                                         : set.reps.join('/')
                                  }
                         />
