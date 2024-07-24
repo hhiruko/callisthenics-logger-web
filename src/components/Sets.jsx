@@ -1,7 +1,14 @@
 import {useState} from "react";
 import {persist, read} from "../utility/Storage.js";
 import {getCurrentDate, parseDate} from "../utility/Date.js";
-import {MdAddCircle, MdDelete, MdEdit, MdSave} from "react-icons/md";
+import {
+    MdAddCircle,
+    MdArrowDropDown,
+    MdArrowDropUp,
+    MdDelete,
+    MdEdit,
+    MdSave
+} from "react-icons/md";
 import Dialogue from "./Dialogue.jsx";
 import Reps from "./Reps.jsx";
 
@@ -13,6 +20,14 @@ function Sets({exercise}) {
     const [editedSet, setEditedSet] = useState([])
     const [deleteSet, setDeleteSet] = useState([])
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [isOptionsOpen, setIsOptionsOpen] = useState(false)
+
+    const Types = ['reps', 'min', 's']
+    const Units = ['kg', 'lbs']
+    const [type, setType] = useState(Types[0])
+    const [unit, setUnit] = useState(Units[0])
+    const [weight, setWeight] = useState(0)
+    const [isBodyweight, setIsBodyweight] = useState(true)
 
     function readSets() {
         let sets = read(setName) ?? []
@@ -90,17 +105,58 @@ function Sets({exercise}) {
 
     return (
         <>
-            <div className="flex items-center gap-3 justify-center mb-6">
-                <input className="rounded border-2" type='number' step='any' onChange={setTempReps}/>
-                <MdAddCircle className="cursor-pointer" onClick={() => addReps()}/>
+            <div className='mb-6'>
+                <div className="flex items-center gap-3 justify-center">
+                    {!isOptionsOpen ?
+                        (
+                            <MdArrowDropDown onClick={() => {setIsOptionsOpen(true)}}/>
+                        ) : (
+                            <MdArrowDropUp onClick={() => {setIsOptionsOpen(false)}}/>
+                        )}
+                    <input className="rounded border-2" type='number' step='any' onChange={setTempReps}/>
+                    <MdAddCircle className="cursor-pointer" onClick={() => addReps()}/>
+                </div>
+                <div className={(!isOptionsOpen ? 'hidden' : 'grid gap-3 mt-3') + ' ' +
+                    (isBodyweight ? 'grid-rows-1' : 'grid-rows-2')}>
+                    <div className='flex gap-3 justify-center'>
+                        <span>Type: </span>
+                        <select>
+                            {Types.map((unit, key) => (
+                                <option key={key} value={unit}>
+                                    {unit}
+                                </option>))}
+                        </select>
+                        <span>Bodyweight: </span>
+                        <input type='checkbox' checked={isBodyweight} onChange={() => {
+                            setIsBodyweight(!isBodyweight)
+                        }}/>
+                    </div>
+                    {!isBodyweight ?
+                        (
+                            <div className='flex gap-3 justify-center'>
+                                <span>Weight: </span>
+                                <input className='w-12' type='number' step='two'/>
+                                <span>Unit: </span>
+                                <select>
+                                    {Units.map((unit, key) => (
+                                        <option key={key} value={unit}>
+                                            {unit}
+                                        </option>))}
+                                </select>
+                            </div>
+                        ) :
+                        (
+                            ''
+                        )}
+                </div>
             </div>
             {sets.map((set, index) =>
                 (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3 border-2 p-3" key={index}>
                         <Reps date={set.date} reps={set.reps} isEditing={set.isEditing ?? false}
-                                 callbackEdit={setTempSet}
-                                 editValue={
-                                     editedSet.length > 0 && editedSet.findIndex(e => e.date === set.date) !== -1
+                              callbackEdit={setTempSet}
+                              editValue={
+                                  editedSet.length > 0 && editedSet.findIndex(e => e.date === set.date) !== -1
                                         ? (editedSet[editedSet.findIndex(e => e.date === set.date)]?.reps?.join('/'))
                                         : set.reps.join('/')
                                  }
