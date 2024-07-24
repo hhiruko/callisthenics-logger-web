@@ -1,12 +1,11 @@
 import {useParams} from "react-router-dom";
 import Sets from "../components/Sets.jsx";
-import {Exercises} from "../utility/Exercises.js";
 
-function Exercise() {
+function Exercise({exercises}) {
     const {exercise} = useParams()
 
     return (
-        Exercises.findIndex(row => row.route === exercise) !== -1 ?
+        exercises.findIndex(row => row.route === exercise) !== -1 ?
             (<Sets key={exercise} exercise={exercise} />) : ''
     )
 }

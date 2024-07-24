@@ -17,7 +17,7 @@ function App() {
             <Nav exercises={exercises} />
             <Routes>
                 <Route path='/' element={<Navigate to='/pull-ups'/>}/>
-                <Route path='/:exercise' element={<Exercise />} />
+                <Route path='/:exercise' element={<Exercise exercises={exercises} />} />
                 <Route path='/settings' element={<Settings exercises={exercises} setExercises={setExercises} />} />
             </Routes>
         </>
