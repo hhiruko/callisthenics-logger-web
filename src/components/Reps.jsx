@@ -46,7 +46,7 @@ function Reps({date, reps, isEditing, callbackEdit, editValue}) {
             </div>
             <div className="">
                 {Object.entries(reps.reduce((rep, nextRep) => {
-                    let key = nextRep.isBodyweight ? '' : ` of ${nextRep.weight}${nextRep.unit}`
+                    let key = nextRep.isBodyweight ? '' : ` w/ ${nextRep.weight}${nextRep.unit}`
                     let typeKey = `${nextRep.type}${key}`
 
                     if (!rep[typeKey]) {
