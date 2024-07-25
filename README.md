@@ -10,7 +10,10 @@ A simple application to log and track your callisthenics exercises progress.
 ## Features
 - Add reps for each day
 - Add your own exercises
+- Weights, units, and types of reps available
 
 ## Coming soon:
-- Units of measurements
 - Analytics (graphs, figures, trends, etc.)
+
+## To-do/Need help:
+- Fix `parseEditedSet(set)` method

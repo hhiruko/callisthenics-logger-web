@@ -45,19 +45,15 @@ function Sets({exercise}) {
         return sets
     }
 
-    function setTempReps(event) {
-        setReps(parseFloat(event.target.value))
-    }
-
     function addReps(){
         if (reps > 0) {
             let log = [...sets]
             let date = getCurrentDate()
             let set = log.findIndex(set => set.date === date)
             if (set !== -1) {
-                log[set].reps.push(reps)
+                log[set].reps.push({rep: reps, type: type, isBodyweight: isBodyweight, weight: weight, unit: unit})
             } else {
-                log.push({date: date, reps: [reps]})
+                log.push({date: date, reps: [{rep: reps, type: type, isBodyweight: isBodyweight, weight: weight, unit: unit}]})
             }
             log = sortSets(log)
 
@@ -86,20 +82,7 @@ function Sets({exercise}) {
         log[set].isEditing = false
         let tempSet = editedSet.findIndex(set => set.date === date)
         if (tempSet !== -1) {
-            let reps = editedSet[tempSet].reps
-            let delimiters = ['/', '\\']
-            reps = reps.split(',').join('.')
-            delimiters.forEach(delimiter => {
-                reps = reps.split(delimiter).join(' ')
-            })
-            reps = reps.split(' ')
-
-            log[set].reps = reps.map(item => {
-                let cleanedItem = item.replace(/^\D+|\D+$/g, '')
-                return parseFloat(cleanedItem)
-                })
-                .filter(item => !isNaN(item))
-
+            log[set].reps = parseEditedSet(editedSet[tempSet])
             let updatedSet = [...editedSet]
             updatedSet.splice(tempSet, 1)
             setEditedSet(updatedSet)
@@ -112,11 +95,83 @@ function Sets({exercise}) {
         let log = [...editedSet]
         let set = log.findIndex(set => set.date === tempSet.date)
         if (set !== -1) {
-            log[set].reps = tempSet.reps
+            log[set].reps = tempSet.reps ?? ''
+            log[set].weight = tempSet.weight ?? ''
         } else {
             log.push(tempSet)
         }
         setEditedSet(log)
+    }
+
+    // TODO update/rewrite method because a ton of errors with undefined/NaN
+    function parseEditedSet(set) {
+        function parseExerciseString(str) {
+            // Replace backward slashes with forward slashes
+            str = str.replace(/\\/g, '/');
+
+            // Split the string by '/'
+            const parts = str.split('/');
+
+            return parts.map(part => {
+                let rep, type, isBodyweight, weight, unit;
+
+                // Handle bodyweight case
+                if (part === 'BW') {
+                    rep = 0; // Default rep for bodyweight exercises
+                    type = Types[0]; // Default type
+                    isBodyweight = true;
+                    weight = 0;
+                    unit = '';
+                } else {
+                    // Replace commas with periods for floating-point numbers
+                    part = part.replace(',', '.');
+
+                    // Extract numeric value and unit from the part
+                    const match = part.match(/^(\d+(\.\d*)?)([a-zA-Z]*)$/);
+
+                    if (match) {
+                        rep = parseFloat(match[1]);
+                        type = match[3] && Types.includes(match[3]) ? match[3] : Types[0]; // Fallback to the first type if not valid
+
+                        // Determine unit: if none of the allowed units match, default to 'kg'
+                        unit = Units.find(u => part.includes(u)) || Units[0];
+
+                        // Ensure weight is set correctly
+                        weight = unit === '' ? 0 : rep;
+                    } else {
+                        // Default values if the part does not match the expected pattern
+                        rep = 0;
+                        type = Types[0];
+                        isBodyweight = true;
+                        weight = 0;
+                        unit = Units[0]; // Default to the first unit
+                    }
+                }
+
+                return {
+                    rep,
+                    type,
+                    isBodyweight,
+                    weight,
+                    unit
+                };
+            });
+        }
+
+        const parts1 = parseExerciseString(set.reps);
+        const parts2 = parseExerciseString(set.weight);
+
+        // Combine the two arrays element-wise
+        return parts1.map((part1, index) => {
+            const part2 = parts2[index] || {};
+            return {
+                rep: part1.rep,
+                type: part1.type,
+                isBodyweight: part2.isBodyweight,
+                weight: part2.weight,
+                unit: part2.unit
+            };
+        });
     }
 
     return (
@@ -129,14 +184,16 @@ function Sets({exercise}) {
                         ) : (
                             <MdArrowDropUp onClick={() => {setIsOptionsOpen(false)}}/>
                         )}
-                    <input className="rounded border-2" type='number' step='any' onChange={setTempReps}/>
+                    <input className="rounded border-2" type='number' step='any' onChange={
+                        (e) => setReps(parseFloat(e.target.value))
+                    }/>
                     <MdAddCircle className="cursor-pointer" onClick={() => addReps()}/>
                 </div>
                 <div className={(!isOptionsOpen ? 'hidden' : 'grid gap-3 mt-3') + ' ' +
                     (isBodyweight ? 'grid-rows-1' : 'grid-rows-2')}>
                     <div className='flex gap-3 justify-center'>
                         <span>Type: </span>
-                        <select>
+                        <select onChange={(e) => setType(e.target.value)}>
                             {Types.map((unit, key) => (
                                 <option key={key} value={unit}>
                                     {unit}
@@ -151,9 +208,11 @@ function Sets({exercise}) {
                         (
                             <div className='flex gap-3 justify-center'>
                                 <span>Weight: </span>
-                                <input className='w-12' type='number' step='two'/>
+                                <input className='w-12' type='number' step='two' onChange={
+                                    (e) => setWeight(parseFloat(e.target.value))
+                                }/>
                                 <span>Unit: </span>
-                                <select>
+                                <select onChange={(e) => setUnit(e.target.value)}>
                                     {Units.map((unit, key) => (
                                         <option key={key} value={unit}>
                                             {unit}
@@ -173,8 +232,8 @@ function Sets({exercise}) {
                               callbackEdit={setTempSet}
                               editValue={
                                   editedSet.length > 0 && editedSet.findIndex(e => e.date === set.date) !== -1
-                                        ? (editedSet[editedSet.findIndex(e => e.date === set.date)]?.reps)
-                                        : set.reps.join('/')
+                                        ? (editedSet[editedSet.findIndex(e => e.date === set.date)])
+                                        : set.reps
                                  }
                         />
                         <div className="flex gap-3 justify-center pt-1.5">
