@@ -14,6 +14,7 @@ A simple application to log and track your callisthenics exercises progress.
 
 ## Coming soon:
 - Analytics (graphs, figures, trends, etc.)
+- Hide exercise from list
 
 ## To-do/Need help:
 - Fix `parseEditedSet(set)` method
